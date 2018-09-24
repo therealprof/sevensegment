@@ -1,0 +1,21 @@
+[package]
+authors = ["Daniel Egger <daniel@eggers-club.de>"]
+categories = [
+    "embedded",
+    "hardware-support",
+    "no-std",
+]
+description = "A platform agnostic driver to interface with 7-segment LED displays"
+documentation = "https://docs.rs/sevensegment"
+keywords = [
+    "embedded-hal-driver",
+    "LED",
+    "GPIO",
+]
+license = "0BSD"
+name = "sevensegment"
+repository = "https://github.com/therealprof/sevensegment"
+version = "0.1.0"
+
+[dependencies]
+embedded-hal = "0.2.1"
