@@ -10,12 +10,11 @@
 //!
 //! [nucleo-f042k6]: https://github.com/therealprof/nucleo-f042k6
 
-#![deny(warnings)]
 #![no_std]
 
-extern crate embedded_hal as hal;
+use embedded_hal as hal;
 
-use hal::digital::OutputPin;
+use hal::digital::v2::OutputPin;
 
 /// A structure representing the 7 segments of a 7-segment display
 pub struct SevenSeg<A, B, C, D, E, F, G> {
@@ -60,230 +59,228 @@ where
     }
 
     /// Disable the 7-segment display by pulling all GPIOs low
-    pub fn clear(&mut self) {
-        self.seg_a(false);
-        self.seg_b(false);
-        self.seg_c(false);
-        self.seg_d(false);
-        self.seg_e(false);
-        self.seg_f(false);
-        self.seg_g(false);
+    pub fn clear(&mut self) -> Result<(), ()> {
+        self.seg_a(false)?;
+        self.seg_b(false)?;
+        self.seg_c(false)?;
+        self.seg_d(false)?;
+        self.seg_e(false)?;
+        self.seg_f(false)?;
+        self.seg_g(false)
     }
 
     /// Enable or disable segment `a` according to the `state`
-    pub fn seg_a(&mut self, state: bool) {
+    pub fn seg_a(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_a.set_high();
+            self.seg_a.set_high().map_err(|_| ())
         } else {
-            self.seg_a.set_low();
+            self.seg_a.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `b` according to the `state`
-    pub fn seg_b(&mut self, state: bool) {
+    pub fn seg_b(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_b.set_high();
+            self.seg_b.set_high().map_err(|_| ())
         } else {
-            self.seg_b.set_low();
+            self.seg_b.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `c` according to the `state`
-    pub fn seg_c(&mut self, state: bool) {
+    pub fn seg_c(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_c.set_high();
+            self.seg_c.set_high().map_err(|_| ())
         } else {
-            self.seg_c.set_low();
+            self.seg_c.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `d` according to the `state`
-    pub fn seg_d(&mut self, state: bool) {
+    pub fn seg_d(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_d.set_high();
+            self.seg_d.set_high().map_err(|_| ())
         } else {
-            self.seg_d.set_low();
+            self.seg_d.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `e` according to the `state`
-    pub fn seg_e(&mut self, state: bool) {
+    pub fn seg_e(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_e.set_high();
+            self.seg_e.set_high().map_err(|_| ())
         } else {
-            self.seg_e.set_low();
+            self.seg_e.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `f` according to the `state`
-    pub fn seg_f(&mut self, state: bool) {
+    pub fn seg_f(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_f.set_high();
+            self.seg_f.set_high().map_err(|_| ())
         } else {
-            self.seg_f.set_low();
+            self.seg_f.set_low().map_err(|_| ())
         }
     }
 
     /// Enable or disable segment `g` according to the `state`
-    pub fn seg_g(&mut self, state: bool) {
+    pub fn seg_g(&mut self, state: bool) -> Result<(), ()> {
         if state {
-            self.seg_g.set_high();
+            self.seg_g.set_high().map_err(|_| ())
         } else {
-            self.seg_g.set_low();
+            self.seg_g.set_low().map_err(|_| ())
         }
     }
 
     /// Display the digit specified in `num`. Supported are all values in the hexadecimal system,
     /// that is `0` through `9` and `A` through `F`. Any other value will turn off the display.
-    pub fn display(&mut self, num: u8) {
+    pub fn display(&mut self, num: u8) -> Result<(), ()> {
         match num {
             0 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(false);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(false)
             }
             1 => {
-                self.seg_a(false);
-                self.seg_b(false);
-                self.seg_c(false);
-                self.seg_d(false);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(false);
+                self.seg_a(false)?;
+                self.seg_b(false)?;
+                self.seg_c(false)?;
+                self.seg_d(false)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(false)
             }
             2 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(false);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(false);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(false)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(false)?;
+                self.seg_g(true)
             }
             3 => {
-                self.seg_a(true);
-                self.seg_b(false);
-                self.seg_c(false);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(false)?;
+                self.seg_c(false)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             4 => {
-                self.seg_a(false);
-                self.seg_b(false);
-                self.seg_c(true);
-                self.seg_d(false);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(false)?;
+                self.seg_b(false)?;
+                self.seg_c(true)?;
+                self.seg_d(false)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             5 => {
-                self.seg_a(true);
-                self.seg_b(false);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(false);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(false)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(false)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             6 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(false);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(false)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             7 => {
-                self.seg_a(false);
-                self.seg_b(false);
-                self.seg_c(false);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(false);
+                self.seg_a(false)?;
+                self.seg_b(false)?;
+                self.seg_c(false)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(false)
             }
             8 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             9 => {
-                self.seg_a(true);
-                self.seg_b(false);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(false)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             10 => {
-                self.seg_a(false);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(false)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             11 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(false);
-                self.seg_e(false);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(false)?;
+                self.seg_e(false)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             12 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(false);
-                self.seg_f(false);
-                self.seg_g(false);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(false)?;
+                self.seg_f(false)?;
+                self.seg_g(false)
             }
             13 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(false);
-                self.seg_d(false);
-                self.seg_e(true);
-                self.seg_f(true);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(false)?;
+                self.seg_d(false)?;
+                self.seg_e(true)?;
+                self.seg_f(true)?;
+                self.seg_g(true)
             }
             14 => {
-                self.seg_a(true);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(false);
-                self.seg_f(false);
-                self.seg_g(true);
+                self.seg_a(true)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(false)?;
+                self.seg_f(false)?;
+                self.seg_g(true)
             }
             15 => {
-                self.seg_a(false);
-                self.seg_b(true);
-                self.seg_c(true);
-                self.seg_d(true);
-                self.seg_e(false);
-                self.seg_f(false);
-                self.seg_g(true);
+                self.seg_a(false)?;
+                self.seg_b(true)?;
+                self.seg_c(true)?;
+                self.seg_d(true)?;
+                self.seg_e(false)?;
+                self.seg_f(false)?;
+                self.seg_g(true)
             }
-            _ => {
-                self.clear()
-            }
+            _ => self.clear(),
         }
     }
 }

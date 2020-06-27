@@ -15,7 +15,8 @@ keywords = [
 license = "0BSD"
 name = "sevensegment"
 repository = "https://github.com/therealprof/sevensegment"
-version = "0.1.0"
+version = "0.2.0"
+edition = "2018"
 
 [dependencies]
-embedded-hal = "0.2.1"
+embedded-hal = "0.2"
